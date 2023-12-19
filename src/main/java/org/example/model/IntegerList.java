@@ -61,7 +61,7 @@ public class IntegerList implements IIntegerList {
         }
 
         if (index != size) {
-            System.arraycopy(list,index+1,list,index, size - (index+1));
+            System.arraycopy(list, index + 1, list, index, size - (index + 1));
         }
 
         size--;
@@ -75,7 +75,7 @@ public class IntegerList implements IIntegerList {
         Integer item = list[index];
 
         if (index != size) {
-            System.arraycopy(list,index+1,list,index, size - (index+1));
+            System.arraycopy(list, index + 1, list, index, size - (index + 1));
         }
 
         size--;
@@ -84,7 +84,9 @@ public class IntegerList implements IIntegerList {
 
     @Override
     public boolean contains(Integer item) {
-        return indexOf(item) != -1;
+        Integer[] storageCopy = toArray();
+        sort(storageCopy);
+        return binarySearch(storageCopy, item);
     }
 
     @Override
@@ -154,5 +156,35 @@ public class IntegerList implements IIntegerList {
         if (index < 0 || index >= size) {
             throw new InvalidIndexException();
         }
+    }
+
+    private void sort(Integer[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            int temp = arr[i];
+            int j = i;
+            while (j > 0 && arr[j - 1] >= temp) {
+                arr[j] = arr[j - 1];
+                j--;
+            }
+            arr[j] = temp;
+        }
+    }
+
+    private boolean binarySearch(Integer[] arr, Integer item) {
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+            if (item == arr[min]) {
+                return true;
+            }
+            if (item < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
     }
 }
