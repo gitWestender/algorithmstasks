@@ -1,26 +1,24 @@
 package org.example.model;
 
 import org.example.exceptions.*;
-import org.example.interfaces.IStringList;
+import org.example.interfaces.IIntegerList;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class StringList implements IStringList {
-    private final String[] list;
+public class IntegerList implements IIntegerList {
+    private final Integer[] list;
     private int size;
 
-    public StringList() {
-        list = new String[10];
+    public IntegerList() {
+        list = new Integer[10];
     }
 
-    public StringList(int size) {
-        list = new String[size];
+    public IntegerList(int size) {
+        list = new Integer[size];
     }
 
     @Override
-    public String add(String item) {
+    public Integer add(Integer item) {
         validateSize();
         validateItem(item);
         list[size++] = item;
@@ -28,7 +26,7 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public String add(int index, String item) {
+    public Integer add(int index, Integer item) {
         validateSize();
         validateIndex(index);
         validateItem(item);
@@ -46,7 +44,7 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public String set(int index, String item) {
+    public Integer set(int index, Integer item) {
         validateIndex(index);
         validateItem(item);
         list[index] = item;
@@ -54,7 +52,7 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public String remove(String item) {
+    public Integer remove(Integer item) {
         validateItem(item);
         int index = indexOf(item);
 
@@ -71,10 +69,10 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public String remove(int index) {
+    public Integer remove(int index) {
         validateIndex(index);
 
-        String item = list[index];
+        Integer item = list[index];
 
         if (index != size) {
             System.arraycopy(list,index+1,list,index, size - (index+1));
@@ -85,12 +83,12 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public boolean contains(String item) {
+    public boolean contains(Integer item) {
         return indexOf(item) != -1;
     }
 
     @Override
-    public int indexOf(String item) {
+    public int indexOf(Integer item) {
         for (int i = 0; i < list.length; i++) {
             if (list[i].equals(item)) {
                 return i;
@@ -100,7 +98,7 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public int lastIndexOf(String item) {
+    public int lastIndexOf(Integer item) {
         for (int i = size - 1; i > 0; i--) {
             if (list[i].equals(item)) {
                 return i;
@@ -110,13 +108,13 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public String get(int index) {
+    public Integer get(int index) {
         validateIndex(index);
         return list[index];
     }
 
     @Override
-    public boolean equals(StringList otherList) {
+    public boolean equals(IntegerList otherList) {
         return Arrays.equals(this.toArray(), otherList.toArray());
     }
 
@@ -136,7 +134,7 @@ public class StringList implements IStringList {
     }
 
     @Override
-    public String[] toArray() {
+    public Integer[] toArray() {
         return Arrays.copyOf(list, size);
     }
 
@@ -146,7 +144,7 @@ public class StringList implements IStringList {
         }
     }
 
-    private void validateItem(String item) {
+    private void validateItem(Integer item) {
         if (item == null) {
             throw new NullItemException();
         }
